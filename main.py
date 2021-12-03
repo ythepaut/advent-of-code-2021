@@ -7,9 +7,7 @@ Yohann THEPAUT (ythepaut) <contact@ythepaut.com>
 """
 
 import argparse
-import day1
-import day2
-import day3
+from solutions import day1, day2, day3
 
 
 def get_inputs(path: str) -> list[str]:
