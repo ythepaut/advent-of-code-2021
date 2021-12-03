@@ -9,6 +9,7 @@ Yohann THEPAUT (ythepaut) <contact@ythepaut.com>
 import argparse
 import day1
 import day2
+import day3
 
 
 def get_inputs(path: str) -> list[str]:
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     inputs = get_inputs(args.input)
-    days = [day1, day2]
+    days = [day1, day2, day3]
     assert(0 < args.day <= len(days)), f"Day must be between 1 and {len(days)}"
 
     solutions = days[args.day - 1].solve(inputs)
