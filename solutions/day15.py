@@ -17,10 +17,6 @@ def preprocess_inputs(inputs: list) -> np.ndarray:
     return np.array(inputs)
 
 
-def heuristic(position: Node, objective: Node) -> int:
-    return round(math.sqrt(abs(position[0] - objective[0])**2 + abs(position[1] - objective[1])**2))
-
-
 def get_neighbours(position: Node, shape: tuple[int, int]) -> list[Node]:
     neighbours = []
     for i in range(-1, 2):
@@ -43,29 +39,25 @@ def reconstruct_path(predecessors: dict[Node, Node], current: Node) -> list[Node
     return path
 
 
-def a_star(grid: np.ndarray, start: Node, end: Node, h: Callable) -> list[Node]:
+def dijkstra(grid: np.ndarray, start: Node, end: Node) -> list[Node]:
     open_set = [start]
     predecessors = {}
 
-    g_score = {(i, j): math.inf for j in range(grid.shape[1]) for i in range(grid.shape[0])}
-    g_score[start] = 0
-
-    f_score = {(i, j): math.inf for j in range(grid.shape[1]) for i in range(grid.shape[0])}
-    f_score[start] = h(start, end)
+    weights = {(i, j): math.inf for j in range(grid.shape[1]) for i in range(grid.shape[0])}
+    weights[start] = 0
 
     while len(open_set) > 0:
-        current = min(open_set, key=f_score.get)
+        current = min(open_set, key=weights.get)
         if current == end:
             return reconstruct_path(predecessors, current)
 
         open_set.remove(current)
         for neighbour in get_neighbours(current, grid.shape):
-            tentative_g_score = g_score[current] + grid[current[1], current[0]]
+            tentative_g_score = weights[current] + grid[current[1], current[0]]
 
-            if tentative_g_score < g_score[neighbour]:
+            if tentative_g_score < weights[neighbour]:
                 predecessors[neighbour] = current
-                g_score[neighbour] = tentative_g_score
-                f_score[neighbour] = tentative_g_score + h(neighbour, end)
+                weights[neighbour] = tentative_g_score
 
                 if neighbour not in open_set:
                     open_set.append(neighbour)
@@ -90,13 +82,13 @@ def expand_grid(grid: np.ndarray) -> np.ndarray:
 
 
 def part1(grid: np.ndarray) -> int:
-    path = a_star(grid, (0, 0), (grid.shape[0] - 1, grid.shape[1] - 1), heuristic)
+    path = dijkstra(grid, (0, 0), (grid.shape[0] - 1, grid.shape[1] - 1))
     return sum_weights(path, grid)
 
 
 def part2(grid: np.ndarray) -> int:
     grid = expand_grid(grid)
-    path = a_star(grid, (0, 0), (grid.shape[0] - 1, grid.shape[1] - 1), heuristic)
+    path = dijkstra(grid, (0, 0), (grid.shape[0] - 1, grid.shape[1] - 1))
     return sum_weights(path, grid)
 
 
