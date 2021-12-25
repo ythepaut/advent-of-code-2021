@@ -5,7 +5,6 @@ Yohann THEPAUT (ythepaut) <contact@ythepaut.com>
 
 
 def preprocess_inputs(inputs: list) -> tuple[str, dict[str, str]]:
-    """Transforms each input to its integer value"""
     template = inputs[0][:-1]
     rules = {}
     for i in range(2, len(inputs)):
