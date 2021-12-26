@@ -7,7 +7,8 @@ Yohann THEPAUT (ythepaut) <contact@ythepaut.com>
 """
 
 import argparse
-from solutions import day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14, day15
+from solutions import day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14, day15, \
+    day16
 
 
 def get_inputs(path: str) -> list[str]:
@@ -25,8 +26,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     inputs = get_inputs(args.input)
-    days = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14, day15]
-    assert(0 < args.day <= len(days)), f"Day must be between 1 and {len(days)}"
+    days = [day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12, day13, day14, day15, day16]
+    assert (0 < args.day <= len(days)), f"Day must be between 1 and {len(days)}"
 
     solutions = days[args.day - 1].solve(inputs)
     print("Part 1 solution : ", solutions[0])
